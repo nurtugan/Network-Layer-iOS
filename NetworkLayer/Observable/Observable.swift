@@ -4,9 +4,9 @@
 import Foundation
 
 // MARK: - Observable
-public class Observable<T> {
+class Observable<T> {
     
-    public typealias Observer = (T, T?) -> Void
+    typealias Observer = (T, T?) -> Void
     
     fileprivate var observers: [Int: (Observer, DispatchQueue?)] = [:]
     fileprivate var uniqueID = (0...).makeIterator()
@@ -22,23 +22,23 @@ public class Observable<T> {
         }
     }
     
-    public var wrappedValue: T {
+    var wrappedValue: T {
         return _value
     }
       
     fileprivate var _onDispose: () -> Void
     
-    public init(_ value: T, onDispose: @escaping () -> Void = {}) {
+    init(_ value: T, onDispose: @escaping () -> Void = {}) {
         _value = value
         _onDispose = onDispose
     }
     
-    public init(wrappedValue: T) {
+    init(wrappedValue: T) {
         _value = wrappedValue
         _onDispose = {}
     }
     
-    public func observe(_ queue: DispatchQueue? = nil, _ observer: @escaping Observer) -> Disposable {
+    func observe(_ queue: DispatchQueue? = nil, _ observer: @escaping Observer) -> Disposable {
         lock.lock()
         defer { lock.unlock() }
         
@@ -55,11 +55,11 @@ public class Observable<T> {
         return disposable
     }
     
-    public func removeAllObservers() {
+    func removeAllObservers() {
         observers.removeAll()
     }
     
-    public func asObservable() -> Observable<T> {
+    func asObservable() -> Observable<T> {
         return self
     }
     
@@ -76,7 +76,7 @@ public class Observable<T> {
 
 // MARK: - MutableObservable
 @propertyWrapper
-public class MutableObservable<T>: Observable<T> {
+class MutableObservable<T>: Observable<T> {
     override public var wrappedValue: T {
         get {
             return _value
