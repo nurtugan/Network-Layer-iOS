@@ -9,12 +9,21 @@
 import UIKit
 
 final class MainViewController: UIViewController {
-    var viewModel: MainViewModel!
+    private let mockRepository = MockRepository()
+    private var disposal = Disposal()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemGreen
-        viewModel = MainViewModel()
-        viewModel.getBranches()
+
+        // MARK: - Networking
+        mockRepository.getBranches(partnerID: 1).observe { result, _ in
+            switch result {
+            case .success(let branches):
+                print(branches[1].id)
+            case .failure(let error):
+                print(error)
+            }
+        }.add(to: &disposal)
     }
 }
