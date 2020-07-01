@@ -1,13 +1,15 @@
 // source: https://github.com/roberthein/Observable
+// version: 2.0.1
 
 import Foundation
 
+// MARK: - Observable
 public class Observable<T> {
     
     public typealias Observer = (T, T?) -> Void
     
-    private var observers: [Int: (Observer, DispatchQueue?)] = [:]
-    private var uniqueID = (0...).makeIterator()
+    fileprivate var observers: [Int: (Observer, DispatchQueue?)] = [:]
+    fileprivate var uniqueID = (0...).makeIterator()
     
     fileprivate let lock = NSRecursiveLock()
     
@@ -43,13 +45,7 @@ public class Observable<T> {
         let id = uniqueID.next()!
         
         observers[id] = (observer, queue)
-        
-        /*
-         When network call starts the initial value comes that
-         is equal to `failed` when I call `observe` function.
-         Because of this, I commented out the call of the below function
-         */
-//        notify(observer: observer, queue: queue, value: wrappedValue)
+        notify(observer: observer, queue: queue, value: wrappedValue)
         
         let disposable = Disposable { [weak self] in
             self?.observers[id] = nil
@@ -78,8 +74,43 @@ public class Observable<T> {
     }
 }
 
+// MARK: - MutableObservable
 @propertyWrapper
 public class MutableObservable<T>: Observable<T> {
+    override public var wrappedValue: T {
+        get {
+            return _value
+        }
+        set {
+            lock.lock()
+            defer { lock.unlock() }
+            _value = newValue
+        }
+    }
+}
+
+// MARK: - NetworkObservable
+class NetworkObservable<T>: Observable<T> {
+    override func observe(_ queue: DispatchQueue? = nil, _ observer: @escaping Observable<T>.Observer) -> Disposable {
+        lock.lock()
+        defer { lock.unlock() }
+        
+        let id = uniqueID.next()!
+        
+        observers[id] = (observer, queue)
+        
+        let disposable = Disposable { [weak self] in
+            self?.observers[id] = nil
+            self?._onDispose()
+        }
+        
+        return disposable
+    }
+}
+
+// MARK: - MutableNetworkObservable
+@propertyWrapper
+final class MutableNetworkObservable<T>: NetworkObservable<T> {
     override public var wrappedValue: T {
         get {
             return _value

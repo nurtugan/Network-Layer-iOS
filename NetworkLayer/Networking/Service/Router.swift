@@ -8,19 +8,19 @@
 
 import Foundation
 
-typealias NetworkObservable<T: Decodable> = Observable<Result<T, Error>>
+typealias NetworkResult<T: Decodable> = NetworkObservable<Result<T, Error>>
 
 protocol NetworkRouter: AnyObject {
     associatedtype EndPoint: EndPointType
-    func request<T: Decodable>(_ route: EndPoint) -> NetworkObservable<T>
+    func request<T: Decodable>(_ route: EndPoint) -> NetworkResult<T>
     func cancel()
 }
 
 final class Router<EndPoint: EndPointType>: NetworkRouter {
     private var task: URLSessionTask?
 
-    func request<T: Decodable>(_ route: EndPoint) -> NetworkObservable<T> {
-        let observable: MutableObservable<ResultWithError<T>> = .init(.failure(NetworkResponseError.failed))
+    func request<T: Decodable>(_ route: EndPoint) -> NetworkResult<T> {
+        let observable: MutableNetworkObservable<ResultWithError<T>> = .init(.failure(NetworkResponseError.failed))
         let session = URLSession.shared
         do {
             let request = try buildRequest(from: route)

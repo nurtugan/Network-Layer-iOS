@@ -1,5 +1,3 @@
-// source: https://github.com/roberthein/Observable
-
 import Foundation
 
 public typealias Disposal = [Disposable]

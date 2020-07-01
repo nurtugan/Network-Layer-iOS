@@ -9,18 +9,18 @@
 import Foundation
 
 protocol MockRepositoryProtocol {
-    func getBranch(branchID: Int) -> NetworkObservable<MockModel>
-    func getBranches(partnerID: Int) -> NetworkObservable<[MockModel]>
+    func getBranch(branchID: Int) -> NetworkResult<MockModel>
+    func getBranches(partnerID: Int) -> NetworkResult<[MockModel]>
 }
 
 final class MockRepository: MockRepositoryProtocol {
     private let router = Router<MockAPI>()
 
-    func getBranch(branchID: Int) -> NetworkObservable<MockModel> {
+    func getBranch(branchID: Int) -> NetworkResult<MockModel> {
         router.request(.getBranch(branchID: branchID))
     }
 
-    func getBranches(partnerID: Int) -> NetworkObservable<[MockModel]> {
+    func getBranches(partnerID: Int) -> NetworkResult<[MockModel]> {
         router.request(.getBranches(partnerID: partnerID))
     }
 }
