@@ -11,7 +11,6 @@ import Foundation
 typealias ResultWithError<T> = Result<T, Error>
 
 struct NetworkHelper {
-
     static let shared = NetworkHelper()
     private init() {}
 
