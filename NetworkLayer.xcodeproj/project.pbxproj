@@ -136,7 +136,6 @@
 				01606771205E9412002E4024 /* ViewController */,
 				671E1AE924A91D72008C8D2E /* Repository */,
 				011B4C79204DB05C00A0691C /* Networking */,
-				011B4C60204DB03D00A0691C /* Assets.xcassets */,
 			);
 			path = NetworkLayer;
 			sourceTree = "<group>";
@@ -191,9 +190,10 @@
 		01606770205E93F7002E4024 /* Application */ = {
 			isa = PBXGroup;
 			children = (
-				011B4C65204DB03D00A0691C /* Info.plist */,
-				011B4C62204DB03D00A0691C /* LaunchScreen.storyboard */,
 				011B4C59204DB03D00A0691C /* AppDelegate.swift */,
+				011B4C62204DB03D00A0691C /* LaunchScreen.storyboard */,
+				011B4C60204DB03D00A0691C /* Assets.xcassets */,
+				011B4C65204DB03D00A0691C /* Info.plist */,
 			);
 			path = Application;
 			sourceTree = "<group>";
