@@ -2,7 +2,7 @@
 
 <img src="https://img.shields.io/badge/Swift-5.2-orange"> <img src="https://img.shields.io/badge/iOS-13.4%2B-lightgrey"> <br>
 
-Protocol-Oriented Network Layer in iOS
+Protocol-Oriented Network Layer in iOS.
 
 ## Functionality 
 - [x] Observable based result
