@@ -33,11 +33,6 @@ class Observable<T> {
         _onDispose = onDispose
     }
     
-    init(wrappedValue: T) {
-        _value = wrappedValue
-        _onDispose = {}
-    }
-    
     func observe(_ queue: DispatchQueue? = nil, _ observer: @escaping Observer) -> Disposable {
         lock.lock()
         defer { lock.unlock() }
@@ -76,8 +71,8 @@ class Observable<T> {
 
 // MARK: - MutableObservable
 @propertyWrapper
-class MutableObservable<T>: Observable<T> {
-    override public var wrappedValue: T {
+final class MutableObservable<T>: Observable<T> {
+    override var wrappedValue: T {
         get {
             return _value
         }
@@ -111,7 +106,7 @@ class NetworkObservable<T>: Observable<T> {
 // MARK: - MutableNetworkObservable
 @propertyWrapper
 final class MutableNetworkObservable<T>: NetworkObservable<T> {
-    override public var wrappedValue: T {
+    override var wrappedValue: T {
         get {
             return _value
         }

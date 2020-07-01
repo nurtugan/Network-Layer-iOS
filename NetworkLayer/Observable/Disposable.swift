@@ -1,18 +1,18 @@
 import Foundation
 
-public typealias Disposal = [Disposable]
+typealias Disposal = [Disposable]
 
 extension Disposal {
-    public func dispose() {
+    func dispose() {
         forEach { disposable in
             disposable.dispose()
         }
     }
 }
 
-public final class Disposable {
+final class Disposable {
     
-    public let dispose: () -> ()
+    let dispose: () -> ()
     
     init(_ dispose: @escaping () -> ()) {
         self.dispose = dispose
@@ -22,7 +22,7 @@ public final class Disposable {
         dispose()
     }
     
-    public func add(to disposal: inout Disposal) {
+    func add(to disposal: inout Disposal) {
         disposal.append(self)
     }
 }
