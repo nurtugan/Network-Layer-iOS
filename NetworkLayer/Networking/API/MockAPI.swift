@@ -44,11 +44,11 @@ extension MockAPI: EndPointType {
         }
     }
 
-    var headers: HTTPHeaders? {
+    var headers: HTTPHeaders {
         switch self {
         case .getBranch,
              .getBranches:
-            return nil
+            return [:]
         }
     }
 }
