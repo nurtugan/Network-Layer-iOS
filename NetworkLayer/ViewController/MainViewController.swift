@@ -15,7 +15,7 @@ final class MainViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemGreen
-
+        
         // MARK: - Networking
         mockRepository.getBranches(partnerID: 1).observe { result, _ in
             switch result {
