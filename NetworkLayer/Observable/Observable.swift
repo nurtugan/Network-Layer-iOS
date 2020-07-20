@@ -83,37 +83,3 @@ final class MutableObservable<T>: Observable<T> {
         }
     }
 }
-
-// MARK: - NetworkObservable
-class NetworkObservable<T>: Observable<T> {
-    override func observe(_ queue: DispatchQueue? = nil, _ observer: @escaping Observable<T>.Observer) -> Disposable {
-        lock.lock()
-        defer { lock.unlock() }
-        
-        let id = uniqueID.next()!
-        
-        observers[id] = (observer, queue)
-        
-        let disposable = Disposable { [weak self] in
-            self?.observers[id] = nil
-            self?._onDispose()
-        }
-        
-        return disposable
-    }
-}
-
-// MARK: - MutableNetworkObservable
-@propertyWrapper
-final class MutableNetworkObservable<T>: NetworkObservable<T> {
-    override var wrappedValue: T {
-        get {
-            return _value
-        }
-        set {
-            lock.lock()
-            defer { lock.unlock() }
-            _value = newValue
-        }
-    }
-}

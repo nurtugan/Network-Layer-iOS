@@ -18,12 +18,26 @@ final class MainViewController: UIViewController {
         
         // MARK: - Networking
         mockRepository.getBranches(partnerID: 1).observe { result, _ in
+            // ––– Option 1 –––
+//            switch result {
+//            case .success(let branches):
+//                print(branches[1].id)
+//            case .failure(let error):
+//                print(error)
+//            case .none:
+//                break
+//            }
+            // ––– Ends –––
+            
+            // ––– Option 2 –––
+            guard let result = result else { return }
             switch result {
             case .success(let branches):
                 print(branches[1].id)
             case .failure(let error):
                 print(error)
             }
+            // ––– Ends –––
         }.add(to: &disposal)
     }
 }
