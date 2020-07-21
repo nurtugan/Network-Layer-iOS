@@ -8,8 +8,8 @@ class Observable<T> {
     
     typealias Observer = (T, T?) -> Void
     
-    fileprivate var observers: [Int: (Observer, DispatchQueue?)] = [:]
-    fileprivate var uniqueID = (0...).makeIterator()
+    private var observers: [Int: (Observer, DispatchQueue?)] = [:]
+    private var uniqueID = (0...).makeIterator()
     
     fileprivate let lock = NSRecursiveLock()
     
@@ -31,6 +31,11 @@ class Observable<T> {
     init(_ value: T, onDispose: @escaping () -> Void = {}) {
         _value = value
         _onDispose = onDispose
+    }
+    
+    init(wrappedValue: T) {
+        _value = wrappedValue
+        _onDispose = {}
     }
     
     func observe(_ queue: DispatchQueue? = nil, _ observer: @escaping Observer) -> Disposable {
