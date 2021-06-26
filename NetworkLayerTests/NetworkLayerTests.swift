@@ -9,12 +9,4 @@
 import XCTest
 @testable import NetworkLayer
 
-final class NetworkLayerTests: XCTestCase {
-    override func setUp() {
-        super.setUp()
-    }
-
-    override func tearDown() {
-        super.tearDown()
-    }
-}
+final class NetworkLayerTests: XCTestCase {}
